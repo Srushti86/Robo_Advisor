@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 import json
 import mysql.connector
 from mysql.connector import Error
@@ -7,14 +8,23 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_connection():
-    """Open a new MySQL connection using credentials from .env"""
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        port=os.getenv("DB_PORT", 3306),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", ""),
-        database=os.getenv("DB_NAME", "robo_advisor"),
-    )
+    """Open a new MySQL connection - uses Streamlit secrets on Streamlit Cloud, falls back to .env locally"""
+    try:
+        return mysql.connector.connect(
+            host=st.secrets["DB_HOST"],
+            port=st.secrets["DB_PORT"],
+            user=st.secrets["DB_USER"],
+            password=st.secrets["DB_PASSWORD"],
+            database=st.secrets["DB_NAME"],
+        )
+    except (KeyError, FileNotFoundError):
+        return mysql.connector.connect(
+            host=os.getenv("DB_HOST", "localhost"),
+            port=os.getenv("DB_PORT", "3306"),
+            user=os.getenv("DB_USER", "root"),
+            password=os.getenv("DB_PASSWORD", ""),
+            database=os.getenv("DB_NAME", "robo_advisor"),
+        )
 
 def get_or_create_user(username: str) -> int:
     """Return the user's id, creating the user row if it doesn't exist yet."""

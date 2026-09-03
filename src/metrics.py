@@ -8,13 +8,13 @@ def portfolio_returns(weights: dict, prices: pd.DataFrame) -> pd.Series:
     common = [t for t in w.index if t in rets.columns]
     return (rets[common] * w[common]).sum(axis=1)
 
-def sharpe_ratio(port_rets: pd.Series, rf: float = 0.02) -> float:
+def sharpe_ratio(port_rets: pd.Series, rf: float = 0.065) -> float:
     excess = port_rets - rf / 252
     if excess.std() == 0:
         return 0.0
     return (excess.mean() / excess.std()) * np.sqrt(252)
 
-def sortino_ratio(port_rets: pd.Series, rf: float = 0.02) -> float:
+def sortino_ratio(port_rets: pd.Series, rf: float = 0.065) -> float:
     downside = port_rets[port_rets < 0]
     if len(downside) == 0 or downside.std() == 0:
         return 0.0

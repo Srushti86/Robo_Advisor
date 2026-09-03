@@ -3,9 +3,9 @@ from pypfopt import expected_returns, risk_models
 from pypfopt.efficient_frontier import EfficientFrontier
 
 def load_returns() -> pd.DataFrame:
-    """Load cached prices, excluding the SPY benchmark column."""
+    """Load cached prices, excluding the Nifty 50 benchmark column."""
     prices = pd.read_parquet("data/prices.parquet")
-    prices = prices.drop(columns=["SPY"], errors="ignore")
+    prices = prices.drop(columns=["^NSEI"], errors="ignore")
     return prices.dropna(axis=1, how="any")  #drop tickers with gaps
 
 def _build_frontier(prices: pd.DataFrame):

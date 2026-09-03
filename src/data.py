@@ -2,11 +2,12 @@ import yfinance as yf
 import pandas as pd
 import os
 
+# NSE-listed large cap stocks across major sectors (India)
 TICKERS = [
-    "XLK", "XLF", "XLE", "XLV", "XLY", "XLP", "XLI", "XLU", "XLB", "XLRE",
-    "AAPL", "MSFT", "GOOGL", "AMZN", "JNJ", "JPM", "PG", "XOM", "V", "UNH",
+    "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", "ICICIBANK.NS", "HINDUNILVR.NS", "ITC.NS", "SBIN.NS", "BHARTIARTL.NS", "KOTAKBANK.NS",
+    "LT.NS", "AXISBANK.NS", "ASIANPAINT.NS", "MARUTI.NS", "SUNPHARMA.NS", "TITAN.NS", "ULTRACEMCO.NS", "WIPRO.NS", "NESTLEIND.NS", "POWERGRID.NS",
 ]
-BENCHMARK = "SPY"
+BENCHMARK = "^NSEI"  # Nifty 50 index
 ALL_TICKERS = TICKERS + [BENCHMARK]
 
 def fetch_and_cache(force: bool = False) -> pd.DataFrame:

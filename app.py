@@ -81,10 +81,10 @@ if st.button("Generate My Portfolio", type="primary"):
         st.metric("Max Drawdown", f"{max_drawdown(rets):.1%}")
         st.metric("Diversification Score", f"{diversification_score(weights, prices):.2f}")
 
-    st.header("3. Backtest vs S&P 500")
-    spy = pd.read_parquet("data/prices.parquet")["SPY"]
-    port_cum, spy_cum = backtest_vs_benchmark(weights, prices, spy)
-    chart_df = pd.DataFrame({"Portfolio": port_cum, "S&P 500": spy_cum})
+    st.header("3. Backtest vs Nifty 50")
+    nifty = pd.read_parquet("data/prices.parquet")["^NSEI"]
+    port_cum, nifty_cum = backtest_vs_benchmark(weights, prices, nifty)
+    chart_df = pd.DataFrame({"Portfolio": port_cum, "Nifty 50": nifty_cum})
     st.line_chart(chart_df)
 
     # --- Save to MySQL ---
@@ -120,7 +120,7 @@ if st.button("Generate My Portfolio", type="primary"):
         - **Moderate** → a blended target between the two
         
         The backtest applies the optimized weights over the historical window
-        and compares cumulative growth against a buy-and-hold SPY benchmark
+        and compares cumulative growth against a buy-and-hold Nifty 50 benchmark
         over the same period.
         """)
 else:

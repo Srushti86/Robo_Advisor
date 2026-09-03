@@ -3,13 +3,14 @@
 Live demo :
 
 ## What it does
-takes a short risk questionnaire and generates an optimized portfolio allocation using mean-variance opitimization on real market data, with backtested performance metrics against the S&P 500.
+Takes a short risk questionnaire and generates an optimized portfolio allocation using mean-variance opitimization on real Indian market data (NSE large cap stocks), with backtested performance metrics against the Nifty 50 index.
 
 ## Methodology 
 - Mean-variance optimization (Markowitz) via PyPortfolioOpt
 - Leodoit-Wolf shrinkage covariance estimation for stability
 - Constraints : max 25% per position, max 35% per sector
-- Backtested against SPY over a 5-year historical window 
+- Backtested against the Nifty 50 (^NSEI) over a 5-year historical window 
+- User risk profiles and portfolio recommendations persisted in a MySQL database (hosted on Railway)
 
 ## Tech stack
 Python • yfinance • pandas • PyPortfolioOpt • Streamlit • Plotly

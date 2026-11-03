@@ -1,6 +1,6 @@
 # Robo-Advisor Portfolio Tool
 
-Live demo : https://roboadvisor-d62dpkkbzs9dvbgt4qdg2v.streamlit.app/
+Live demo : https://srushti-roboadvisor.streamlit.app/
 
 ## What it does
 Takes a short risk questionnaire and generates an optimized portfolio allocation using mean-variance optimization on real Indian market data (NSE large cap stocks), with backtested performance metrics against the Nifty 50 index.

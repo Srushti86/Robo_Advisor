@@ -11,16 +11,24 @@ BENCHMARK = "^NSEI"  # Nifty 50 index
 ALL_TICKERS = TICKERS + [BENCHMARK]
 
 def fetch_and_cache(force: bool = False) -> pd.DataFrame:
-    """Download 5 years of daily adjusted close prices and cache to parquet."""
+    """Download 5 years of daily prices and cache to parquet (safe against partial files)."""
     path = "data/prices.parquet"
     os.makedirs("data", exist_ok=True)
 
     if os.path.exists(path) and not force:
-        return pd.read_parquet(path)
+        try:
+            return pd.return_parquet(path)
+        except Exception:
+            pass #corrupt or partial file, so re-download below
 
     data = yf.download(ALL_TICKERS, period="5y", auto_adjust=True)["Close"]
     data = data.dropna(how="all")
-    data.to_parquet(path)
+    if data.empty:
+        raise RuntimeError("yfinance returned no data")
+
+    tmp = path + ".tmp"
+    data.to_parquet(tmp)
+    os.replace(tmp, path)  #the file only appears once its fully written
     return data
 
 def fetch_metadata() -> pd.DataFrame:

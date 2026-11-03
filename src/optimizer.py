@@ -1,10 +1,11 @@
 import pandas as pd
 from pypfopt import expected_returns, risk_models
 from pypfopt.efficient_frontier import EfficientFrontier
+from src.data import fetch_and_cache
 
 def load_returns() -> pd.DataFrame:
     """Load cached prices, excluding the Nifty 50 benchmark column."""
-    prices = pd.read_parquet("data/prices.parquet")
+    prices = fetch_and_cache()
     prices = prices.drop(columns=["^NSEI"], errors="ignore")
     return prices.dropna(axis=1, how="any")  #drop tickers with gaps
 

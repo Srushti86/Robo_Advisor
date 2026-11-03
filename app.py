@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import os
+from src.data import fetch_and_cache
 
 from src.risk_profile import(
     score_to_bucket, HORIZON_OPTIONS, HORIZON_POINTS,
@@ -82,7 +83,7 @@ if st.button("Generate My Portfolio", type="primary"):
         st.metric("Diversification Score", f"{diversification_score(weights, prices):.2f}")
 
     st.header("3. Backtest vs Nifty 50")
-    nifty = pd.read_parquet("data/prices.parquet")["^NSEI"]
+    nifty = fetch_and_cache()["^NSEI"]
     port_cum, nifty_cum = backtest_vs_benchmark(weights, prices, nifty)
     chart_df = pd.DataFrame({"Portfolio": port_cum, "Nifty 50": nifty_cum})
     st.line_chart(chart_df)

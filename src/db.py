@@ -4,6 +4,7 @@ import json
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
+import certifi
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ def get_connection():
             user=st.secrets["DB_USER"],
             password=st.secrets["DB_PASSWORD"],
             database=st.secrets["DB_NAME"],
+            ssl_ca=certifi.where(),
         )
     except (KeyError, FileNotFoundError):
         return mysql.connector.connect(

@@ -9,3 +9,4 @@ scikit-learn
 pytest
 mysql-connector-python
 python-dotenv
+certifi
